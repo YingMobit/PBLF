@@ -9,6 +9,7 @@ public class SoundEffectManager : MonoBehaviour
     public static AudioClip BeHitted;
     public static AudioClip Enemy_Shoot;
     public static AudioClip Explosion;
+    public static AudioClip Reload;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -16,6 +17,7 @@ public class SoundEffectManager : MonoBehaviour
         BeHitted = Resources.Load<AudioClip>("BeHitted");
         Enemy_Shoot = Resources.Load<AudioClip>("Enemy_Shoot");
         Explosion = Resources.Load<AudioClip>("Explosion");
+        Reload = Resources.Load<AudioClip>("Reload");
     }
 
     // Update is called once per frame
@@ -38,5 +40,10 @@ public class SoundEffectManager : MonoBehaviour
     public static void PlayAudioExplosion()
     {
         audioSource.PlayOneShot(Explosion);
+    }
+
+    public static void PlayAudioReload()
+    {
+        audioSource.PlayOneShot(Reload);
     }
 }

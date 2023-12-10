@@ -18,8 +18,9 @@ public class PlayerController : MonoBehaviour
         
 
     [Header("Health")]
-    public int health = 1;
-    public int maxhealth = 3;
+    public float health;
+    public float maxhealth;
+    public int health_recover;
 
     [Header ("EnemyBulletData")]
     //ebd>> short for enemybullet_damage
@@ -102,6 +103,21 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("UnSignedBulletTpye");
                 break;
             }
+        }
+
+        if (collision.gameObject .tag == "Bullet_Plus")
+        {
+            attack_type++;
+            if (attack_type > 3) attack_type = 3;
+            SoundEffectManager.PlayAudioReload();
+            Destroy(collision .gameObject);
+        }
+
+        if (collision .gameObject .tag == "Health_Plus")
+        {
+            health += health_recover;
+            if (health > 100) health = 100; 
+            Destroy(collision.gameObject);
         }
     }
 

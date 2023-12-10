@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class Enemy_1 : MonoBehaviour
     private Rigidbody2D rigidbody;
     public  GameObject bullet;
     public GameObject Explosion;
+    public GameObject Bullet_Plus;
+    public GameObject Health_Plus;
+    public Transform Blood;
     public ScoreManager scoreManager;
     public MyBullets playerBullets;
 
@@ -18,8 +22,8 @@ public class Enemy_1 : MonoBehaviour
     public int damage;
 
     [Header ("Basic")]
-    public int health;
-    public int maxHealth;
+    public float health;
+    public float maxHealth;
     public int player_damage;
     public float lifetime;
 
@@ -40,6 +44,7 @@ public class Enemy_1 : MonoBehaviour
     {
         scoreManager = FindObjectOfType<ScoreManager>();
         rigidbody = GetComponent<Rigidbody2D>();
+        Blood = transform.GetChild(0);
         //playerBullets = FindObjectOfType<MyBullets>();
     }
 
@@ -55,6 +60,7 @@ public class Enemy_1 : MonoBehaviour
         Shoot();
         Dead();
         DeadAuto();
+        BloodChange();
     }
 
     void Shoot()//µ¥·¢µ¯Ä»
@@ -80,6 +86,15 @@ public class Enemy_1 : MonoBehaviour
     {
         if (health <= 0)
         {
+            float i;
+            i = UnityEngine.Random.Range(0f,1f);
+            if (i > 0.7f) 
+            {
+                float j;
+                j = UnityEngine.Random.Range(0f,1f);
+                if (j > 0.7) Instantiate(Health_Plus, transform.position, Quaternion.identity);
+                else Instantiate(Bullet_Plus,transform .position ,Quaternion.identity);
+            }
             scoreManager.ChangeScore(score);
             SoundEffectManager.PlayAudioExplosion();
             Instantiate(Explosion, transform.position, Quaternion.identity);
@@ -94,5 +109,11 @@ public class Enemy_1 : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void BloodChange()
+    {
+        Blood.localScale= new Vector3(health /maxHealth, 0.1f, 1);
+        Debug.Log(health / maxHealth);
     }
 }

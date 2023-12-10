@@ -8,6 +8,9 @@ public class Enemy_3 : MonoBehaviour
     private Rigidbody2D rigidbody;
     public GameObject bullet;
     public GameObject Explosion;
+    public GameObject Bullet_Plus;
+    public GameObject Health_Plus;
+    public Transform Blood;
     public ScoreManager scoreManager;
     public MyBullets playerBullets;
 
@@ -22,8 +25,8 @@ public class Enemy_3 : MonoBehaviour
     public int damage;
 
     [Header("Basic")]
-    public int health;
-    public int maxHealth;
+    public float health;
+    public float maxHealth;
     public int player_damage;
     public float lifetime;
 
@@ -44,6 +47,7 @@ public class Enemy_3 : MonoBehaviour
     {
         scoreManager = FindObjectOfType<ScoreManager>();
         rigidbody = GetComponent<Rigidbody2D>();
+        Blood = transform.GetChild(0);
         //playerBullets = FindObjectOfType<MyBullets>();
     }
 
@@ -63,6 +67,7 @@ public class Enemy_3 : MonoBehaviour
         Shoot();
         DeadAuto();
         Dead();
+        BloodChange();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -78,8 +83,17 @@ public class Enemy_3 : MonoBehaviour
     {
         if (health <= 0)
         {
+            float i;
+            i = UnityEngine.Random.Range(0f, 1f);
+            if (i > 0.6f)
+            {
+                float j;
+                j = UnityEngine.Random.Range(0f, 1f);
+                if (j > 0.7) Instantiate(Health_Plus, transform.position, Quaternion.identity);
+                else Instantiate(Bullet_Plus, transform.position, Quaternion.identity);
+            }
             scoreManager.ChangeScore(score);
-            SoundEffectManager.PlayAudioBeHitted();
+            SoundEffectManager.PlayAudioExplosion();
             Instantiate(Explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -96,7 +110,7 @@ public class Enemy_3 : MonoBehaviour
 
     private void Shoot()//ÉÈÐÎµ¯Ä»8·¢×Óµ¯
     {
-        if (Time.time - last_atk_time > 2.5)
+        if (Time.time - last_atk_time > 4.5)
         {
             last_atk_time = Time.time;
             for (int i = 0; i < bullet_num; i++)
@@ -111,6 +125,12 @@ public class Enemy_3 : MonoBehaviour
                 else rb.velocity = bullet_speed * new Vector2(tan_a, 1);
             }
         }
+    }
+
+    private void BloodChange()
+    {
+        Blood.localScale = new Vector3(health / maxHealth, 0.1f, 1);
+        Debug.Log(health / maxHealth);
     }
 
 }
