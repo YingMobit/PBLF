@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject Player_bullet;
     public Rigidbody2D myrigidbody;
     public Animator animator;
+    public GameObject Dead_UI;
 
     [Header ("Enemy")]
     private Enemy_1 Enemy_1;
@@ -124,8 +125,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
-        Shoot();
+        if (!isdead)
+        {
+            Move();
+            Shoot();
+        }
+        Dead();
         //SoundEffectManager.PlayAudioPlayer_Attack();
     }
 
@@ -203,6 +208,17 @@ public class PlayerController : MonoBehaviour
         else if (attack_type == 1 && health >= 0)
         {
             health -= damage;
+        }
+    }
+
+    private void Dead()
+    {
+        if (health <= 0)
+        {
+            health = 0;
+            isdead = true;
+            Dead_UI.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 }

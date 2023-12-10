@@ -19,7 +19,7 @@ public class EnemyGnerater : MonoBehaviour
 
     private void Start()
     {
-
+        ScoreManager = FindObjectOfType<ScoreManager>();
     }
 
     private void Update()

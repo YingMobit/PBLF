@@ -122,7 +122,7 @@ public class Enemy_4 : MonoBehaviour
         }
     }
 
-    IEnumerator shoot()
+    IEnumerator shoot() 
     {
         Debug.Log("shoot");
         for (int i = 0; i < bullet_num; i++)
