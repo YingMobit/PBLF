@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.TextCore.Text;
 
 public class score : MonoBehaviour
 {
@@ -26,29 +27,53 @@ public class score : MonoBehaviour
         // 设置文件路径为游戏同目录下的 scores.json
         filePath = Application.dataPath + "/scores.json";
 
-
+        Debug.Log("1");
         if(PlayerPrefs.GetInt("switch",0)==1)//从play场景跳转
         {
             UpdateScore(currentPlayerName,PlayerPrefs.GetInt("score",0));
+            Debug.Log("1-1");
         }
         else
         {
             // 切换到结结算场景时加载排行榜数据
             LoadScoreData();
+            Debug.Log("1-2");
         }
     }
 
     // 添加新成绩到排行榜
     public void AddScore(string playerName, int score)
     {
-        PlayerScore newScore = new PlayerScore();
-        newScore.PlayerName = playerName;
-        newScore.score = score;
+        PlayerScore existingScore = scoreList.Find(p => p.PlayerName == playerName);
 
-        scoreList.Add(newScore);
+        if (existingScore != null)
+        {
+            // 如果找到了相同昵称的玩家，则更新为更高的分数
+            if (score > existingScore.score)
+            {
+                existingScore.score = score;
+                Debug.Log("Updated score for player " + playerName + ". New score: " + existingScore.score);
+            }
+            else
+            {
+                Debug.Log("Score not updated for player " + playerName + ". Existing score is higher.");
+            }
+        }
+        else
+        {
+            // 如果没有找到相同昵称的玩家，则添加新成绩
+            PlayerScore newScore = new PlayerScore();
+            newScore.PlayerName = playerName;
+            newScore.score = score;
+            scoreList.Add(newScore);
+            Debug.Log("Added new score for player " + playerName + ": " + score);
+        }
+
         SortScores();
         SaveScoreData();
     }
+
+
 
     // 删除排行榜中特定玩家的成绩
     public void DeleteScore(string playerName)
@@ -91,6 +116,7 @@ public class score : MonoBehaviour
             string json = System.IO.File.ReadAllText(filePath);
             scoreList = JsonUtility.FromJson<List<PlayerScore>>(json);
             DisplayLeaderboard();
+            Debug.Log("2-1");
         }
         else
         {
@@ -105,6 +131,7 @@ public class score : MonoBehaviour
 
             // 将新数据保存到文件中
             SaveScoreData();
+            Debug.Log("2-2");
         }
     }
 
@@ -115,6 +142,8 @@ public class score : MonoBehaviour
         System.IO.File.WriteAllText(filePath, json);
         DisplayLeaderboard();
     }
+
+    public Text teshu;
 
     // 示例方法来显示排行榜信息在 UI Text 中
     private void DisplayLeaderboard()
@@ -130,12 +159,15 @@ public class score : MonoBehaviour
             if (playerName == currentPlayerName)
             {
                 playerName = "<color=yellow>" + playerName + "</color>"; // 将当前玩家的名称以黄色显示
+                teshu.text = $"[{i + 1}] {playerName}: {playerScore}\n";
             }
 
             leaderboardInfo += $"[{i + 1}] {playerName}: {playerScore}\n";
+            
         }
 
         Text leaderboardText = ScrollRect.content.GetComponent<Text>();
+        //Text leaderboardText = ScrollRect.content.GetComponent<Text>();
         leaderboardText.text = leaderboardInfo; // 更新 UI Text 的文本内容
     }
 
@@ -157,4 +189,39 @@ public class score : MonoBehaviour
     {
         UpdateScore(playerName, newScore);
     }
+
+    public InputField nameInputField;
+    public InputField scoreInputField;
+    public void Addscre()
+    {
+        PlayerPrefs.SetString("player", nameInputField.text);
+        int score = ConvertToInt(scoreInputField.text);
+        AddScore(nameInputField.text, score);
+    }
+
+    public GameObject bannar;
+
+    public int ConvertToInt(string textValue)
+    {
+        int convertedNumber;
+
+        if (int.TryParse(textValue, out convertedNumber))
+        {
+            Debug.Log("Converted number: " + convertedNumber);
+            return convertedNumber;
+        }
+        else
+        {
+            Debug.Log("Failed to convert text to integer!");
+            bannar.SetActive(true);
+            bannar.transform.GetChild(0).GetComponent<Text>().text = "请输入数字!";
+            return 0;
+        }
+    }
+
+    public void Guanbi()
+    {
+        bannar.SetActive(false);
+    }
+
 }
