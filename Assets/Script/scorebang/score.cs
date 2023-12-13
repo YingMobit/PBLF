@@ -241,13 +241,13 @@ public class score : MonoBehaviour
     }
 
 
-    //对于查找玩家数据面板的操控
+
     public void Guanbi()
     {
         bannar.SetActive(false);
     }
 
-
+    //对于查找玩家数据面板的操控
     public GameObject Findscore;
     public void FindOpen()
     {
@@ -289,6 +289,45 @@ public class score : MonoBehaviour
         else
         {
             findtext.text = "请输入要查询的玩家昵称";
+        }
+    }
+
+    public GameObject deletebannar;
+
+    public void DeleteClose()
+    {
+        deletebannar.SetActive(true);
+    }
+    public InputField deletename;
+    public Text deletetext;
+    public void DeleteOpen()
+    {
+        deletebannar.SetActive(true);
+        deletename.text = "";
+        deletetext.text = "";
+    }
+
+    public void Deletebyname()
+    {
+        if (deletename.text != "")
+        {
+            string playerName = deletename.text;
+            PlayerScore existingScore = scoreList.Find(p => p.PlayerName == playerName);
+            if (existingScore != null)
+            {
+                int score = existingScore.score;
+                DeleteScore(playerName);
+                deletetext.text = "分数为" + score + "的玩家:" + playerName + "已删除";
+            }
+            else
+            {
+                deletetext.text = "该玩家不存在，无法删除";
+            }
+
+        }
+        else
+        {
+            deletetext.text = "请输入要删除的玩家昵称";
         }
     }
 }
