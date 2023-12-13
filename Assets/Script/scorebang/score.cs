@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.TextCore.Text;
+using System.IO;
 
 public class score : MonoBehaviour
 {
@@ -23,10 +24,13 @@ public class score : MonoBehaviour
     {
         currentPlayerName = PlayerPrefs.GetString("PlayerName", "visitor");
 
-        filePath = Application.dataPath + "/scores.json";
+        //filePath = Application.dataPath + "/scores.json";
+        filePath = Application.persistentDataPath + "/feiji_scores.json";
+
+        //filePath = Path.Combine(Application.streamingAssetsPath, "scores.json");
 
         //Debug.Log("1");
-        if(PlayerPrefs.GetInt("switch",0)==1)//从play场景跳转1
+        if (PlayerPrefs.GetInt("switch",0)==1)//从play场景跳转1
         {
             UpdateScore(currentPlayerName,PlayerPrefs.GetInt("score",0));//update目前有点重复，和add撞了
             //Debug.Log("1-1");
@@ -296,7 +300,7 @@ public class score : MonoBehaviour
 
     public void DeleteClose()
     {
-        deletebannar.SetActive(true);
+        deletebannar.SetActive(false);
     }
     public InputField deletename;
     public Text deletetext;
