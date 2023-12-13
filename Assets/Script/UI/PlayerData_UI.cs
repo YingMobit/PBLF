@@ -12,7 +12,7 @@ public class PlayerData_UI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //InputManager = GameObject.Find("DataInput").GetComponent<InputManager>();
     }
 
     // Update is called once per frame
