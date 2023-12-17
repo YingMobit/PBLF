@@ -13,6 +13,7 @@ public class PlayerData_UI : MonoBehaviour
     void Start()
     {
         //InputManager = GameObject.Find("DataInput").GetComponent<InputManager>();
+        PlayerPrefs.DeleteKey("PlayerName");
     }
 
     // Update is called once per frame

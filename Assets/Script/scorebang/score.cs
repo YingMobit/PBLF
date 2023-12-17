@@ -9,7 +9,7 @@ public class score : MonoBehaviour
     public ScrollRect ScrollRect;
     public string currentPlayerName; // 当前玩家的名称
 
-    private List<PlayerScore> scoreList = new List<PlayerScore>();
+    public List<PlayerScore> scoreList = new List<PlayerScore>();
     private string filePath;
 
     [System.Serializable]
@@ -27,7 +27,7 @@ public class score : MonoBehaviour
 
 
         //filePath = Application.dataPath + "/scores.json";
-        filePath = Application.persistentDataPath + "/feiji_scores.json";
+        filePath = Application.persistentDataPath + "/feiji_scores.csv";
 
         //filePath = Path.Combine(Application.streamingAssetsPath, "scores.json");
         LoadScoreData();
@@ -128,37 +128,55 @@ public class score : MonoBehaviour
     //加载排行榜数据
     private void LoadScoreData()
     {
-        if (System.IO.File.Exists(filePath))
+        if (File.Exists(filePath))
         {
-            string json = System.IO.File.ReadAllText(filePath);
-            scoreList = JsonUtility.FromJson<List<PlayerScore>>(json);
+            // 从CSV文件读取数据
+            string[] lines = File.ReadAllLines(filePath);
+            scoreList.Clear(); // 清空原有数据
+
+            foreach (string line in lines)
+            {
+                string[] values = line.Split(','); // 使用逗号分隔值
+
+                PlayerScore playerScore = new PlayerScore();
+                playerScore.PlayerName = values[0];
+                playerScore.score = int.Parse(values[1]);
+
+                scoreList.Add(playerScore);
+            }
+
             DisplayLeaderboard();
-            Debug.Log("2-1");
+            Debug.Log("Loaded score data from CSV.");
         }
         else
         {
-            //后面考虑删掉？
-            Debug.LogWarning("No score data found.");
+            Debug.LogWarning("No score data found. Creating a new example.");
+
             // 创建一个新的排行榜数据示例
             PlayerScore exampleScore = new PlayerScore();
             exampleScore.PlayerName = "visitor";
             exampleScore.score = 0;
 
-            //添加一个示例
             scoreList.Add(exampleScore);
 
-            //存到文件
             SaveScoreData();
-            Debug.Log("2-2");
         }
     }
 
-    //保存排行榜数据
     private void SaveScoreData()
     {
-        string json = JsonUtility.ToJson(scoreList);
-        System.IO.File.WriteAllText(filePath, json);
+        // 将数据保存为CSV格式
+        List<string> lines = new List<string>();
+
+        foreach (PlayerScore score in scoreList)
+        {
+            string line = $"{score.PlayerName},{score.score}";
+            lines.Add(line);
+        }
+
+        File.WriteAllLines(filePath, lines);
         DisplayLeaderboard();
+        Debug.Log("Saved score data to CSV.");
     }
 
     public Text teshu;
