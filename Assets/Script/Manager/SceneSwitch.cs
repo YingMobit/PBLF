@@ -1,18 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.Properties;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneSwitch : MonoBehaviour
 {
 
     public GameObject Main;
     public GameObject DataInput_UI;
+    public GameObject DataInput_;
+    public InputManager inputManager;
     private int stage=1;
+
+    private void Start()
+    {
+        
+    }
+
+    public InputField InputField;
     public void StartGame()
     {
+        //DataInput_ = GameObject.Find("DataInput");
+        //inputManager = DataInput_.GetComponent<InputManager>();
+        PlayerPrefs.DeleteKey("PlayerName");
+        PlayerPrefs.SetString("PlayerName", InputField.text);
+        Debug.Log(PlayerPrefs.GetString("PlayerName", "visitor"));
+        PlayerPrefs.SetInt("score", 0);
         SceneManager.LoadScene("Game");
+
     }
 
     public void ExitGame()
@@ -32,6 +50,7 @@ public class SceneSwitch : MonoBehaviour
 
     public void ToEnd()
     {
+        PlayerPrefs.SetInt("switch", 1);
         SceneManager.LoadScene("End");
     }
 

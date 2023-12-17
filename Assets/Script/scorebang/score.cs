@@ -23,17 +23,20 @@ public class score : MonoBehaviour
     private void Awake()
     {
         currentPlayerName = PlayerPrefs.GetString("PlayerName", "visitor");
+        Debug.Log(currentPlayerName);
+
 
         //filePath = Application.dataPath + "/scores.json";
         filePath = Application.persistentDataPath + "/feiji_scores.json";
 
         //filePath = Path.Combine(Application.streamingAssetsPath, "scores.json");
-
+        LoadScoreData();
         //Debug.Log("1");
         if (PlayerPrefs.GetInt("switch",0)==1)//从play场景跳转1
         {
             UpdateScore(currentPlayerName,PlayerPrefs.GetInt("score",0));//update目前有点重复，和add撞了
             //Debug.Log("1-1");
+
             PlayerPrefs.SetInt("switch", 0);//让他默认从start跳转
         }
         else//从开头跳转0
@@ -173,12 +176,12 @@ public class score : MonoBehaviour
             string playerName = scoreList[i].PlayerName;
             string playerScore = scoreList[i].score.ToString();
 
-            currentPlayerName = PlayerPrefs.GetString("player", "");
+            currentPlayerName = PlayerPrefs.GetString("PlayerName", "visitor");
 
             if (playerName == currentPlayerName)
             {
                 playerName = "<color=yellow>" + playerName + "</color>"; //标黄当前玩家（add的或者开局输入的playerprefs存储）
-                teshu.text = $"[{i + 1}] {playerName}: {playerScore}\n";
+                teshu.text = $"[{rank}] {playerName}: {playerScore}\n";
             }
 
             leaderboardInfo += $"[{rank}] {playerName}: {playerScore}\n";
@@ -219,7 +222,7 @@ public class score : MonoBehaviour
     public InputField scoreInputField;
     public void Addscre()
     {
-        PlayerPrefs.SetString("player", nameInputField.text);
+        PlayerPrefs.SetString("PlayerName", nameInputField.text);
         int score = ConvertToInt(scoreInputField.text);
         AddScore(nameInputField.text, score);
     }

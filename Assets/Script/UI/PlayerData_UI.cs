@@ -19,8 +19,7 @@ public class PlayerData_UI : MonoBehaviour
     void Update()
     {
         PlayerName = InputManager.playername;
-        PlayerPrefs.SetString("PlayerName", "");
-        PlayerID = InputManager.playerid;
-        PlayerData.text = "玩家名:" + PlayerName + "\n" + "玩家ID:" + PlayerID;
+        //PlayerID = InputManager.playerid;
+        PlayerData.text = "玩家名:" + PlayerName + "\n" ;
     }
 }
