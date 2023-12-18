@@ -13,11 +13,12 @@ public class SceneSwitch : MonoBehaviour
     public GameObject DataInput_UI;
     public GameObject DataInput_;
     public InputManager inputManager;
+    public ScoreManager scoreManager;
     private int stage=1;
 
     private void Start()
     {
-        
+        scoreManager = GameObject.FindObjectOfType<ScoreManager>().GetComponent<ScoreManager>();
     }
 
     public InputField InputField;
@@ -29,6 +30,7 @@ public class SceneSwitch : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", InputField.text);
         Debug.Log(PlayerPrefs.GetString("PlayerName", "visitor"));
         PlayerPrefs.SetInt("score", 0);
+        scoreManager.score = 0;
         SceneManager.LoadScene("Game");
 
     }
@@ -36,11 +38,13 @@ public class SceneSwitch : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+        scoreManager.score = 0;
     }
 
     public void BackToMain()
     {
         SceneManager.LoadScene("Start");
+        scoreManager.score = 0;
     }
 
     public void Continue()

@@ -156,6 +156,7 @@ MonoBehaviour:
   DataInput_UI: {fileID: 2069554406}
   DataInput_: {fileID: 0}
   inputManager: {fileID: 0}
+  scoreManager: {fileID: 0}
   InputField: {fileID: 662004254}
 --- !u!4 &22332673
 Transform:
@@ -1820,6 +1821,7 @@ MonoBehaviour:
   DataInput_UI: {fileID: 2069554406}
   DataInput_: {fileID: 0}
   inputManager: {fileID: 0}
+  scoreManager: {fileID: 0}
   InputField: {fileID: 662004254}
 --- !u!1 &1749271524
 GameObject:

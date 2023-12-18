@@ -19,4 +19,6 @@ public class ScoreManager : MonoBehaviour
         PlayerPrefs.SetInt("score", score);
         ScoreChanged?.Invoke(score);
     }
+
+
 }
