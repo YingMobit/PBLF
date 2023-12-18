@@ -201,11 +201,11 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01093626, y: 0}
-  m_Size: {x: 0.5136132, y: 1.1979166}
+  m_Offset: {x: 0.0021362305, y: 0}
+  m_Size: {x: 0.77648926, y: 1.1979166}
   m_Direction: 0
 --- !u!114 &754424998588935833
 MonoBehaviour:
@@ -228,12 +228,12 @@ MonoBehaviour:
   playerBullets: {fileID: 3987559914603072480, guid: a49c3a9ed27379d4697a3ebb4da82d87, type: 3}
   Correction: {x: 0, y: 0, z: 0}
   damage: 10
-  bullet_num: 10
-  bullet_speed: 4
+  bullet_num: 7
+  bullet_speed: 2.8
   StartAngle: 45
   EndAngle: 0
   AnglePerBullet: 0
-  speed: {x: 0, y: -3}
+  speed: {x: 0, y: -2}
   health: 100
   maxHealth: 100
   player_damage: 0

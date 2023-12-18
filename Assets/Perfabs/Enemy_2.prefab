@@ -201,11 +201,11 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.005500555, y: 0}
-  m_Size: {x: 0.49183893, y: 1.1354166}
+  m_Offset: {x: -0.005004883, y: 0}
+  m_Size: {x: 0.8654785, y: 1.1354166}
   m_Direction: 0
 --- !u!114 &6478985683166941694
 MonoBehaviour:

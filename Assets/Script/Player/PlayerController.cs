@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float health;
     public float maxhealth;
     public int health_recover;
+    public int collision_damage;
 
     [Header ("EnemyBulletData")]
     //ebd>> short for enemybullet_damage
@@ -76,6 +78,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        if (collision .gameObject .layer == 6)
+        {
+            Debug.Log("collision");
+            health -= collision_damage;
+        }
+
         if (collision .gameObject .layer == 8)//Enemy_Bullets
         {
             switch (collision.gameObject.tag)
